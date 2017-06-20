@@ -4,9 +4,9 @@
       "Hackernews-NLU": [
         {
           "credentials": {
-           "password": "<nlu passsword>",
+           "password": "",
            "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-           "username": "nlu username"
+           "username": ""
           },
           "label": "natural-language-understanding",
           "name": "Hackernews-NLU",
