@@ -1,0 +1,24 @@
+{
+  "vcap": {
+    "services": {
+      "Hackernews-NLU": [
+        {
+          "credentials": {
+           "password": "<nlu passsword>",
+           "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
+           "username": "nlu username"
+          },
+          "label": "natural-language-understanding",
+          "name": "Hackernews-NLU",
+          "plan": "free",
+          "provider": null,
+          "syslog_drain_url": null,
+          "tags": [
+           "watson",
+           "ibm_created"
+          ]
+        }
+      ]
+    }
+  }
+}
