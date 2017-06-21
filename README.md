@@ -4,13 +4,21 @@
 
 Hackernews-NLU is a sample application that uses Watson Natural Language Understanding service to analyze the contents of trending news articles on Hackernews to give information about the concepts, entities, categories, keywords, sentiment, emotion etc. about the news article.
 
+## Application Workflow Diagram
+![Application Workflow](images/archi.png)
+
+* The user deploys the application to bluemix.
+* Application loads the data from the Hackernews API.
+* The user interacts with the application UI using their browser.
+* When the user performs any action, UI calls the server application API which uses the Watson NLU service to analyze the respective news article.
+
 ## Included Components
 - Bluemix Watson Natural Language Understanding service
 - Hackernews API
 
 ## Deploying the Application to Bluemix
 
-You can deploy the server application using any one of the following ways:
+You can deploy the application using any one of the following ways:
 - Deploy to Bluemix button
 - Bluemix command line
 

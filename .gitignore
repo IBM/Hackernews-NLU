@@ -39,7 +39,7 @@ timeline.xctimeline
 # Packages/
 # Package.pins
 .build/
-*.DS_Store
+/*.DS_Store
 
 # CocoaPods
 #
