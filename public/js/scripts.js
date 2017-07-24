@@ -1,5 +1,6 @@
 // Empty JS for your own code to be here
-var apiUrl = window.location;
+//var apiUrl = window.location;
+var apiUrl= location.protocol + '//' + location.host + location.pathname;
 //var apiUrl= 'http://localhost:8080/update'
 $(function(){
    initData();

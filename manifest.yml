@@ -6,7 +6,7 @@ declared-services:
 
 applications:
 - name: HackernewsNLU
-  memory: 512M
+  memory: 256M
   instances: 1
   random-route: true
   disk_quota: 1024M
