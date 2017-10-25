@@ -30,7 +30,7 @@ public class Controller {
         self.hostname = hostname
         router = Router()
         // Get environment variables from config.json or environment variables
-        let configFile = URL(fileURLWithPath: #file).appendingPathComponent("../../cloud_config.json").standardized
+        let configFile = URL(fileURLWithPath: #file).appendingPathComponent("cloud_config.json").standardized
         configMgr = ConfigurationManager()
         configMgr.load(url: configFile).load(.environmentVariables)
         nluCreds = [String:String]()

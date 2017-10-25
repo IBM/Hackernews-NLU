@@ -16,6 +16,7 @@ sudo ./install_bluemix_cli
 function bluemix_auth() {
 echo "Authenticating with Bluemix"
 echo "y" | bx login -a https://api.ng.bluemix.net --apikey $API_KEY
+echo "y" | bx target -o $ORG -s $SPACE
 }
 
 function deploy_application() {
