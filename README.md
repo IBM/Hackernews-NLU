@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM/Hackernews-NLU.svg?branch=master)](https://travis-ci.org/IBM/Hackernews-NLU)
+![Bluemix Deployments](https://metrics-tracker.mybluemix.net/stats/47c4243d2ddb563afd98dcc8f44d689d/badge.svg)
 
 # Hackernews-NLU
 
@@ -25,7 +26,7 @@ You can deploy the application using any one of the following ways:
 ### a) Using the Deploy to Bluemix button
 Clicking on the button below creates a Bluemix DevOps Toolchain and deploys this application to Bluemix. The `manifest.yml` file [included in the repo] is parsed to obtain the name of the application, configuration details, and the list of services that should be provisioned. For further details on the structure of the `manifest.yml` file, see the [Cloud Foundry documentation](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#minimal-manifest).
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/Hackernews-NLU.git)
+[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/47c4243d2ddb563afd98dcc8f44d689d/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/Hackernews-NLU.git)
 
 Once deployment to Bluemix is completed, you can view the deployed application and services from your bluemix account.
 
@@ -253,3 +254,23 @@ buildpack: swift_buildpack
 
 # License
 [Apache 2.0](LICENSE)
+
+## Privacy Notice
+The sample application includes code to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM/metrics-collector-service) service on each deployment:
+
+* Swift project code version (if provided)
+* Swift project repository URL
+* Application Name (`application_name`)
+* Space ID (`space_id`)
+* Application Version (`application_version`)
+* Application URIs (`application_uris`)
+* Labels and names of bound services
+* Number of instances for each bound service and associated plan information
+
+This data is collected from the parameters of the `MetricsTrackerClient`, the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Cloud and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Cloud to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+
+### Disabling Deployment Tracking
+Deployment tracking can be disabled by removing the following lines from [Sources/main.swift](Sources/main.swift):
+
+    MetricsTrackerClient(repository: "Hackernews-NLU", organization: "IBM").track()
+
