@@ -9,7 +9,7 @@ HeliumLogger.use(LoggerMessageType.info)
 let hostname = "hacker-news.firebaseio.com"
 var nluCreds: [String:String]
 do {
-	MetricsTrackerClient(repository: "Hackernews-NLU", organization: "IBM").track()
+    MetricsTrackerClient(repository: "Hackernews-NLU", organization: "IBM").track()
     let controller = try Controller(hostname:hostname)
     controller.initData(requestUrlPath: "/v0/topstories.json") {
         print("Successfully loaded data !!")
