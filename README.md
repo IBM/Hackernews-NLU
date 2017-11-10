@@ -6,7 +6,7 @@
 Hackernews-NLU is a sample application that uses Watson Natural Language Understanding service to analyze the contents of trending news articles on Hackernews to give information about the concepts, entities, categories, keywords, sentiment, emotion etc. about the news article.
 
 ## Application Workflow Diagram
-![Application Workflow](images/archi.png)
+![Application Workflow](images/arch.png)
 
 * The user deploys the application to IBM Code.
 * Application loads the data from the Hackernews API.
