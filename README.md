@@ -258,6 +258,33 @@ buildpack: swift_buildpack
 #0   running   2017-06-21 11:25:53 AM   0.2%   5.8M of 512M   271.6M of 1G
 ```
 
+## Building the project locally
+
+1. Clone the project
+
+```
+git clone https://github.com/IBM/Hackernews-NLU
+```
+
+2. Build with the swift command line and launch with XCode
+
+```
+swift package generate-xcodeproj
+open HackernewsNLU.xcodeproj
+```
+
+### Troubleshooting
+
+Can't build the project? Check that your Swift version is up to date:
+
+```
+$ swift package tools-version
+3.1.0
+$ swift package tools-version --set-current
+$ swift package tools-version
+4.1.0
+```
+
 # Learn more
 
 * **Artificial Intelligence Patterns:** Enjoyed this Pattern? Check out our other [AI Patterns](https://developer.ibm.com/code/technologies/artificial-intelligence/).

@@ -1,3 +1,4 @@
+// swift-tools-version:4.1
 /**
 * Copyright IBM Corporation 2016, 2017
 *
@@ -14,12 +15,21 @@
 * limitations under the License.
 **/
 
+// swift-tools-version:4.0
 import PackageDescription
 
 let package = Package(
-  name: "HackernewsNLU",
-  dependencies: [
-    .Package(url: "https://github.com/IBM-Swift/Kitura.git", majorVersion: 1, minor: 7),
-    .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git", majorVersion: 1, minor: 7)
-  ]
+    name: "Hackernews-NLU",
+    dependencies: [
+        .package(url: "https://github.com/IBM-Swift/Kitura.git", .upToNextMinor(from: "2.4.1")),
+        .package(url: "https://github.com/IBM-Swift/Kitura-net.git", .upToNextMinor(from: "2.1.1")),
+        .package(url: "https://github.com/IBM-Swift/LoggerAPI.git", .upToNextMinor(from: "1.7.0")),
+        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", .upToNextMinor(from: "1.7.0")),
+        .package(url: "https://github.com/IBM-Swift/CloudConfiguration.git", .upToNextMinor(from: "2.0.0")),
+        .package(url: "https://github.com/IBM-Swift/Configuration.git", .upToNextMinor(from: "1.0.0")),
+        .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMinor(from: "17.0.0"))
+    ],
+    targets: [
+      .target(name: "Application", dependencies: [ "Kitura", "KituraNet", "LoggerAPI", "HeliumLogger", "CloudConfiguration", "Configuration", "SwiftyJSON"]),
+    ]
 )

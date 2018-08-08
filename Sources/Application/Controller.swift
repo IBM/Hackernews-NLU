@@ -30,7 +30,6 @@ public class Controller {
         self.hostname = hostname
         router = Router()
         // Get environment variables from config.json or environment variables
-        //let configFile = URL(fileURLWithPath: #file).appendingPathComponent("../../cloud_config.json").standardized
         let configFile = URL(fileURLWithPath: #file).appendingPathComponent("../cloud_config.json").standardized
         configMgr = ConfigurationManager()
         configMgr.load(url: configFile).load(.environmentVariables)
@@ -41,8 +40,6 @@ public class Controller {
         router.get("/analyse", handler: self.analyse)
         router.get("/update", handler: self.updateData)
     }
-
-
 
     func initData(requestUrlPath url: String,next: @escaping() -> Void) -> Void {
         self.articlesList = [NewsArticles]()
@@ -87,13 +84,10 @@ public class Controller {
         }
     }
 
-
     func updateCount(totalCount:Int, currentCount: inout Int) -> Bool{
         currentCount+=1
         return currentCount==totalCount
     }
-
-
 
     func updateData(request: RouterRequest, response: RouterResponse, next: @escaping() -> Void) throws  {
         print("Received request for Data")
@@ -119,7 +113,6 @@ public class Controller {
             }
         }
     }
-
 
     func callApi(requestUrlPath url: String,success: @escaping (Data)->(), failure: @escaping (String) -> Void) -> Void {
         /*let apiUrl = URL(string: self.hostname+url)
@@ -191,7 +184,6 @@ public class Controller {
             }
         }
     }
-
 
     /// Call Watson NLU API for analysing the Article URL
     ///

@@ -4,7 +4,7 @@
 //
 //  Created by Ishan Gulhane on 6/8/17.
 //
-//
+
 struct NewsArticles{
     fileprivate var title: String
     fileprivate var id: Int
