@@ -23,7 +23,7 @@ function deploy_application() {
   #statements
   bluemix_auth
   echo "Creating service..."
-  bx service create natural-language-understanding free "Hackernews-NLU"
+  bx service create natural-language-understanding free "HackernewsNLU"
   echo "Service created."
   git clone https://github.com/IBM/Hackernews-NLU.git
   cd Hackernews-NLU
@@ -36,7 +36,7 @@ function destroy_application() {
   #statements
   echo "Destroying application"
   echo "y" | bx app delete HackernewsNLU
-  echo "y" | bx service delete Hackernews-NLU
+  echo "y" | bx service delete HackernewsNLU
 }
 
 install_bluemix_cli

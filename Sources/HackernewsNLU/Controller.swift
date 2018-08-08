@@ -18,7 +18,7 @@ import CloudFoundryConfig
 public class Controller {
     let router: Router
     private var configMgr: ConfigurationManager
-    private let nluServiceName = "Hackernews-NLU"
+    private let nluServiceName = "HackernewsNLU"
     var articlesDict = [Int:NewsArticles]()
     var articlesList = [NewsArticles]()
     var hostname : String
@@ -167,7 +167,7 @@ public class Controller {
             Log.error("Invalid value for Articleid")
             return
         }
-        print("Received request for article :"+request.queryParameters["articleid"]!)
+        print("Received request for article: " + request.queryParameters["articleid"]!)
         response.headers["Content-type"] = "application/json"
         callNLUApi(newsArticle: article, completion: { (data) in
             do {
