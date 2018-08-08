@@ -1,16 +1,15 @@
 ---
 declared-services:
-  Hackernews-NLU:
+  HackernewsNLU:
     label: natural-language-understanding
     plan: free
-
 applications:
 - name: HackernewsNLU
   memory: 256M
   instances: 1
   random-route: true
   disk_quota: 1024M
-  command: HackernewsNLU -bind 0.0.0.0:$PORT
+  command: HackernewsNLU
   buildpack: swift_buildpack
   services:
-   - Hackernews-NLU
+   - HackernewsNLU

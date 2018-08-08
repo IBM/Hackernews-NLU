@@ -1,7 +1,7 @@
 {
   "vcap": {
     "services": {
-      "Hackernews-NLU": [
+      "HackernewsNLU": [
         {
           "credentials": {
            "password": "",
@@ -9,7 +9,7 @@
            "username": ""
           },
           "label": "natural-language-understanding",
-          "name": "Hackernews-NLU",
+          "name": "HackernewsNLU",
           "plan": "free",
           "provider": null,
           "syslog_drain_url": null,

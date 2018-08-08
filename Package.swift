@@ -19,7 +19,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "Hackernews-NLU",
+    name: "HackernewsNLU",
+    products: [
+      .executable(
+        name: "HackernewsNLU",
+        targets:  ["HackernewsNLU"]
+      )
+    ],
     dependencies: [
         .package(url: "https://github.com/IBM-Swift/Kitura.git", .upToNextMinor(from: "2.4.1")),
         .package(url: "https://github.com/IBM-Swift/Kitura-net.git", .upToNextMinor(from: "2.1.1")),
@@ -30,6 +36,6 @@ let package = Package(
         .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMinor(from: "17.0.0"))
     ],
     targets: [
-      .target(name: "Application", dependencies: [ "Kitura", "KituraNet", "LoggerAPI", "HeliumLogger", "CloudConfiguration", "Configuration", "SwiftyJSON"]),
+      .target(name: "HackernewsNLU", dependencies: [ "Kitura", "KituraNet", "LoggerAPI", "HeliumLogger", "CloudConfiguration", "Configuration", "SwiftyJSON"]),
     ]
 )
