@@ -1,8 +1,0 @@
-id: Hackernews-NLU
-event_id: web
-event_organizer: dev-journeys
-runtimes: 
-  - Cloud Foundry
-services: 
-  - Natural Language Understanding
-language: swift
