@@ -2,10 +2,6 @@ language: swift
 os: osx
 osx_image: xcode9.4
 
-before_install:
-  # - brew update && brew bundle
-  # - git clone https://github.com/IBM-Swift/Package-Builder.git CognitiveConcierge-Server/Package-Builder
-
 script:
   - swift package generate-xcodeproj
   - swift build
