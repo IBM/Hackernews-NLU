@@ -1,7 +1,11 @@
-language: bash
-sudo: required
+language: swift
+os: osx
+osx_image: xcode9.4
+
+before_install:
+  # - brew update && brew bundle
+  # - git clone https://github.com/IBM-Swift/Package-Builder.git CognitiveConcierge-Server/Package-Builder
+
 script:
-- bash Cloud-Scripts/travis/install.sh
-group: stable
-dist: precise
-os: linux
+  - swift package generate-xcodeproj
+  - swift build
