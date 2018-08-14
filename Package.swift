@@ -33,9 +33,11 @@ let package = Package(
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", .upToNextMinor(from: "1.7.0")),
         .package(url: "https://github.com/IBM-Swift/CloudConfiguration.git", .upToNextMinor(from: "2.0.0")),
         .package(url: "https://github.com/IBM-Swift/Configuration.git", .upToNextMinor(from: "1.0.0")),
-        .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMinor(from: "17.0.0"))
+        .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMinor(from: "17.0.0")),
+        .package(url: "https://github.com/watson-developer-cloud/swift-sdk", from: "0.31.0")
     ],
     targets: [
-      .target(name: "HackernewsNLU", dependencies: [ "Kitura", "KituraNet", "LoggerAPI", "HeliumLogger", "CloudConfiguration", "Configuration", "SwiftyJSON"]),
+      .target(name: "HackernewsNLU", dependencies: ["Kitura", "KituraNet", "LoggerAPI", "HeliumLogger", "CloudConfiguration", "Configuration", "SwiftyJSON", "NaturalLanguageUnderstandingV1"]),
     ]
 )
+
