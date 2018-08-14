@@ -177,7 +177,7 @@ public class Controller {
     /// - parameter failure:    Failure closure invoked on error
     func callNLUApi(newsArticle article: NewsArticles,completion: @escaping (SwiftyJSON.JSON)->(), failure: @escaping (String) -> Void) -> Void {
         let service: NaturalLanguageUnderstanding!
-        if nluCreds["APIKey"] == nil {
+        if nluCreds["apikey"] == nil {
             guard let _ = nluCreds["username"] else {
                 failure("No username for NLU service")
                 return
@@ -188,7 +188,7 @@ public class Controller {
             }
             service = NaturalLanguageUnderstanding(username: nluCreds["username"]!, password: nluCreds["password"]!, version: "2017-02-27")
         } else {
-            service = NaturalLanguageUnderstanding(version: "2017-02-27", apiKey: nluCreds["APIKey"]!)
+            service = NaturalLanguageUnderstanding(version: "2017-02-27", apiKey: nluCreds["apikey"]!)
         }
         if service == nil {
             failure("Service could not be initialized. If you're using CF auth, remove the \"APIKey\" key from the cloud_config.json file.")
