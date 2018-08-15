@@ -36,7 +36,7 @@ public class Controller {
         let configFile = URL(fileURLWithPath: #file).appendingPathComponent("../cloud_config.json").standardized
         configMgr = ConfigurationManager()
         configMgr.load(url: configFile).load(.environmentVariables)
-        nluCreds = [String:String]()
+        nluCreds = [String: String]()
         nluCreds = initService(serviceName: nluServiceName)
         router.all("/", middleware: BodyParser())
         router.all("/", middleware: StaticFileServer())
@@ -145,7 +145,7 @@ public class Controller {
     }
 
     func analyze(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
-        guard let articleid = Int(request.queryParameters["articleid"]), let article = self.articlesDict[articleid] else {
+        guard let articleid = Int(request.queryParameters["articleid"]!), let article = self.articlesDict[articleid] else {
             do {
                 try response.status(.badRequest).send("Invalid value for articleid").end()
             } catch {
@@ -187,7 +187,7 @@ public class Controller {
         let apikeyValid = checkValidity(apikey: nluCreds["apikey"])
         let userpassValid = checkValidity(username: nluCreds["username"], password: nluCreds["password"])
         if apikeyValid && userpassValid {
-            failure("You provided both a username and password, as well as an API key. Please provide only one.")
+            failure("You provided both a username and password, as! well as! an API key. Please provide only one.")
             return
         } else if !apikeyValid && !userpassValid {
             failure("You didn't provide a valid apikey OR username/password pair.")
@@ -211,27 +211,27 @@ public class Controller {
             var jsonKeywords = [[String: AnyObject]]()
             service.analyze(parameters: params) { resp in
                 for concept in resp.concepts! {
-                    jsonConcepts.append(["text": concept.text! as AnyObject, "relevance": concept.relevance! as AnyObject])
+                    jsonConcepts.append(["text": concept.text! as! AnyObject, "relevance": concept.relevance! as! AnyObject])
                 }
                 for category in resp.categories! {
-                    jsonCategories.append(["label": category.label! as AnyObject, "score": category.score! as AnyObject])
+                    jsonCategories.append(["label": category.label! as! AnyObject, "score": category.score! as! AnyObject])
                 }
-                jsonEmotion = ["anger": resp.emotion?.document?.emotion?.anger! as AnyObject, "joy": resp.emotion?.document?.emotion?.joy! as AnyObject, "disgust": resp.emotion?.document?.emotion?.disgust! as AnyObject, "fear": resp.emotion?.document?.emotion?.fear! as AnyObject, "sadness": resp.emotion?.document?.emotion?.sadness! as AnyObject]
-                jsonSentiment = ["label": resp.sentiment?.document?.label! as AnyObject, "score": resp.sentiment?.document?.score! as AnyObject]
+                jsonEmotion = ["anger": resp.emotion?.document?.emotion?.anger! as! AnyObject, "joy": resp.emotion?.document?.emotion?.joy! as! AnyObject, "disgust": resp.emotion?.document?.emotion?.disgust! as! AnyObject, "fear": resp.emotion?.document?.emotion?.fear! as! AnyObject, "sadness": resp.emotion?.document?.emotion?.sadness! as! AnyObject]
+                jsonSentiment = ["label": resp.sentiment?.document?.label! as! AnyObject, "score": resp.sentiment?.document?.score! as! AnyObject]
                 for entity in resp.entities! {
-                    jsonEntities.append(["text": entity.text! as AnyObject, "type": entity.type! as AnyObject, "relevance": entity.relevance! as AnyObject])
+                    jsonEntities.append(["text": entity.text! as! AnyObject, "type": entity.type! as! AnyObject, "relevance": entity.relevance! as! AnyObject])
                 }
                 for keyword in resp.keywords! {
-                    jsonKeywords.append(["text": keyword.text! as AnyObject, "relevance": keyword.relevance! as AnyObject])
+                    jsonKeywords.append(["text": keyword.text! as! AnyObject, "relevance": keyword.relevance! as! AnyObject])
                 }
             }
             var total_json = [String: AnyObject]()
-            total_json["concepts"] = jsonConcepts as AnyObject
-            total_json["categories"] = jsonCategories as AnyObject
-            total_json["emotion"] = jsonEmotion as AnyObject
-            total_json["sentiment"] = jsonSentiment as AnyObject
-            total_json["entities"] = jsonEntities as AnyObject
-            total_json["keywords"] = jsonKeywords as AnyObject
+            total_json["concepts"] = jsonConcepts as! AnyObject
+            total_json["categories"] = jsonCategories as! AnyObject
+            total_json["emotion"] = jsonEmotion as! AnyObject
+            total_json["sentiment"] = jsonSentiment as! AnyObject
+            total_json["entities"] = jsonEntities as! AnyObject
+            total_json["keywords"] = jsonKeywords as! AnyObject
             do {
                 try completion(JSON(data: JSONSerialization.data(withJSONObject: total_json, options: [])))
             } catch {
