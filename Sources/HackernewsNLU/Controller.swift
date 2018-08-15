@@ -20,11 +20,13 @@ public class Controller {
     let router: Router
     private var configMgr: ConfigurationManager
     private let nluServiceName = "HackernewsNLU"
-    var articlesDict = [Int:NewsArticles]()
+    var articlesDict = [Int: NewsArticles]()
     var articlesList = [NewsArticles]()
-    var hostname : String
+    var hostname: String
     var port: Int {
-        get { return configMgr.port }
+        get {
+            return configMgr.port
+        }
     }
 
     init(hostname: String) throws {
@@ -42,7 +44,7 @@ public class Controller {
         router.get("/update", handler: self.updateData)
     }
 
-    func initData(requestUrlPath url: String,next: @escaping() -> Void) -> Void {
+    func initData(requestUrlPath url: String, next: @escaping () -> Void) {
         self.articlesList = [NewsArticles]()
         self.callApi(requestUrlPath: url, success: { (data) in
              let json = try? JSONSerialization.jsonObject(with: data, options: [])
@@ -50,22 +52,21 @@ public class Controller {
                 let totalCount = array.count
                 var currentCount = 0
                 for object in array {
-                    if object is Int {
-                        let articleId = Int(String(describing: object))
-                        if let news = self.articlesDict[articleId!]{
+                    if let articleId = Int(String(describing: object)) {
+                        if let news = self.articlesDict[articleId]{
                             self.articlesList.append(news)
                             if self.updateCount(totalCount: totalCount, currentCount: &currentCount) {
                                 next()
                             }
                         } else {
-                            let itemURL = "/v0/item/" + String(describing: object) + ".json"
+                            let itemURL = "/v0/item/\(String(describing: object)).json"
                             self.callApi(requestUrlPath: itemURL, success: { (data) in
                                 let json = SwiftyJSON.JSON(data: data)
                                 // need to handle for story and comment type
-                                if let title =  json["title"].string, let link = json["url"].string, let id = json["id"].int{
-                                    let news = NewsArticles(newsID :id,newsTitle:title,newsLink:link)
+                                if let title =  json["title"].string, let link = json["url"].string, let id = json["id"].int {
+                                    let news = NewsArticles(newsID: id, newsTitle: title, newsLink: link)
                                     self.articlesList.append(news)
-                                    self.articlesDict[id]=news
+                                    self.articlesDict[id] = news
                                 }
                                 if self.updateCount(totalCount: totalCount, currentCount: &currentCount) {
                                     next()
@@ -89,9 +90,9 @@ public class Controller {
         return currentCount == totalCount
     }
 
-    func updateData(request: RouterRequest, response: RouterResponse, next: @escaping() -> Void) throws  {
+    func updateData(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         print("Received request for Data")
-        guard let path = request.queryParameters["path"] else{
+        guard let path = request.queryParameters["path"] else {
             do {
                 try response.status(.badRequest).send("Invalid value for Path").end()
             } catch {
@@ -103,7 +104,7 @@ public class Controller {
         self.initData(requestUrlPath: path) {
             var newsArticles = [SwiftyJSON.JSON]()
             for val in self.articlesList{
-                let articleJSON = SwiftyJSON.JSON(["id":val.getID(),"title":val.getTitle()])
+                let articleJSON = SwiftyJSON.JSON(["id":val.getID(), "title":val.getTitle()])
                 newsArticles.append(articleJSON)
             }
             do {
@@ -114,9 +115,9 @@ public class Controller {
         }
     }
 
-    func callApi(requestUrlPath url: String,success: @escaping (Data)->(), failure: @escaping (String) -> Void) -> Void {
-        var requestOptions: [ClientRequest.Options] = []
-        var headers = [String:String]()
+    func callApi(requestUrlPath url: String, success: @escaping (Data) -> Void, failure: @escaping (String) -> Void) {
+        var requestOptions = [ClientRequest.Options]()
+        var headers = [String: String]()
         headers["Content-Type"] = "application/json"
         requestOptions.append(.method("GET"))
         requestOptions.append(.schema("https://"))
@@ -143,14 +144,14 @@ public class Controller {
         req.end()
     }
 
-    func analyze(request: RouterRequest, response: RouterResponse, next: @escaping() -> Void) throws  {
-        guard let articleid = Int(request.queryParameters["articleid"]!),let article = self.articlesDict[articleid] else {
+    func analyze(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+        guard let articleid = Int(request.queryParameters["articleid"]), let article = self.articlesDict[articleid] else {
             do {
-                try response.status(.badRequest).send("Invalid value for Articleid").end()
+                try response.status(.badRequest).send("Invalid value for articleid").end()
             } catch {
                 Log.error("Error responding with news articles")
             }
-            Log.error("Invalid value for Articleid")
+            Log.error("Invalid value for articleid")
             return
         }
         print("Received request for article: " + request.queryParameters["articleid"]!)
@@ -210,18 +211,18 @@ public class Controller {
             var jsonKeywords = [[String: AnyObject]]()
             service.analyze(parameters: params) { resp in
                 for concept in resp.concepts! {
-                jsonConcepts.append(["text": concept.text! as AnyObject, "relevance": concept.relevance! as AnyObject])
+                    jsonConcepts.append(["text": concept.text! as AnyObject, "relevance": concept.relevance! as AnyObject])
                 }
                 for category in resp.categories! {
-                jsonCategories.append(["label": category.label! as AnyObject, "score": category.score! as AnyObject])
+                    jsonCategories.append(["label": category.label! as AnyObject, "score": category.score! as AnyObject])
                 }
                 jsonEmotion = ["anger": resp.emotion?.document?.emotion?.anger! as AnyObject, "joy": resp.emotion?.document?.emotion?.joy! as AnyObject, "disgust": resp.emotion?.document?.emotion?.disgust! as AnyObject, "fear": resp.emotion?.document?.emotion?.fear! as AnyObject, "sadness": resp.emotion?.document?.emotion?.sadness! as AnyObject]
                 jsonSentiment = ["label": resp.sentiment?.document?.label! as AnyObject, "score": resp.sentiment?.document?.score! as AnyObject]
                 for entity in resp.entities! {
-                jsonEntities.append(["text": entity.text! as AnyObject, "type": entity.type! as AnyObject, "relevance": entity.relevance! as AnyObject])
+                    jsonEntities.append(["text": entity.text! as AnyObject, "type": entity.type! as AnyObject, "relevance": entity.relevance! as AnyObject])
                 }
                 for keyword in resp.keywords! {
-                jsonKeywords.append(["text": keyword.text! as AnyObject, "relevance": keyword.relevance! as AnyObject])
+                    jsonKeywords.append(["text": keyword.text! as AnyObject, "relevance": keyword.relevance! as AnyObject])
                 }
             }
             var total_json = [String: AnyObject]()
@@ -246,9 +247,9 @@ public class Controller {
     /// Load the service credentials
     ///
     /// - parameter serviceName: name of the service
-    func initService(serviceName:String) -> [String:String] {
+    func initService(serviceName: String) -> [String: String] {
         let serv = configMgr.getService(spec: serviceName)
-        var creds: [String: String] = [:]
+        var creds = [String: String]()
         if let credentials = serv?.credentials {
             creds["username"] = credentials["username"] as? String
             creds["password"] = credentials["password"] as? String
