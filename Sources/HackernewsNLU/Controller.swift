@@ -187,7 +187,7 @@ public class Controller {
         let apikeyValid = checkValidity(apikey: nluCreds["apikey"])
         let userpassValid = checkValidity(username: nluCreds["username"], password: nluCreds["password"])
         if apikeyValid && userpassValid {
-            failure("You provided both a username and password. Please provide only one.")
+            failure("You provided both a username and password, as well as an API key. Please provide only one.")
             return
         } else if !apikeyValid && !userpassValid {
             failure("You didn't provide a valid apikey OR username/password pair.")
