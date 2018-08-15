@@ -24,7 +24,7 @@ public class Controller {
     var articlesList = [NewsArticles]()
     var hostname : String
     var port: Int {
-        get { return configMgr.port }
+        get { return 4444 }
     }
 
     init(hostname: String) throws {
@@ -176,62 +176,71 @@ public class Controller {
     /// - parameter completion: Completion closure invoked on success
     /// - parameter failure:    Failure closure invoked on error
     func callNLUApi(newsArticle article: NewsArticles,completion: @escaping (SwiftyJSON.JSON)->(), failure: @escaping (String) -> Void) -> Void {
-        let service: NaturalLanguageUnderstanding!
-        if nluCreds["apikey"] == nil {
-            guard let _ = nluCreds["username"] else {
-                failure("No username for NLU service")
-                return
-            }
-            guard let _ = nluCreds["password"] else {
-                failure("No password for NLU service")
-                return
-            }
-            service = NaturalLanguageUnderstanding(username: nluCreds["username"]!, password: nluCreds["password"]!, version: "2017-02-27")
-        } else {
-            service = NaturalLanguageUnderstanding(version: "2017-02-27", apiKey: nluCreds["apikey"]!)
-        }
-        if service == nil {
-            failure("Service could not be initialized. If you're using CF auth, remove the \"APIKey\" key from the cloud_config.json file.")
-        }
-        let concepts = ConceptsOptions(limit: 10)
-        let entities = EntitiesOptions(limit: 10)
-        let keywords = KeywordsOptions(limit: 10)
-        let features = Features(concepts: concepts, emotion: EmotionOptions(), entities: entities, keywords: keywords, sentiment: SentimentOptions(), categories: CategoriesOptions())
-        let params = Parameters(features: features, url: article.getLink())
-        var jsonConcepts = [[String: AnyObject]]()
-        var jsonCategories = [[String: AnyObject]]()
-        var jsonEmotion = [String: AnyObject]()
-        var jsonSentiment = [String: AnyObject]()
-        var jsonEntities = [[String: AnyObject]]()
-        var jsonKeywords = [[String: AnyObject]]()
-        service.analyze(parameters: params) { resp in
-            for concept in resp.concepts! {
-                jsonConcepts.append(["text": concept.text! as AnyObject, "relevance": concept.relevance! as AnyObject])
-            }
-            for category in resp.categories! {
-                jsonCategories.append(["label": category.label! as AnyObject, "score": category.score! as AnyObject])
-            }
-            jsonEmotion = ["anger": resp.emotion?.document?.emotion?.anger! as AnyObject, "joy": resp.emotion?.document?.emotion?.joy! as AnyObject, "disgust": resp.emotion?.document?.emotion?.disgust! as AnyObject, "fear": resp.emotion?.document?.emotion?.fear! as AnyObject, "sadness": resp.emotion?.document?.emotion?.sadness! as AnyObject]
-            jsonSentiment = ["label": resp.sentiment?.document?.label! as AnyObject, "score": resp.sentiment?.document?.score! as AnyObject]
-            for entity in resp.entities! {
-                jsonEntities.append(["text": entity.text! as AnyObject, "type": entity.type! as AnyObject, "relevance": entity.relevance! as AnyObject])
-            }
-            for keyword in resp.keywords! {
-                jsonKeywords.append(["text": keyword.text! as AnyObject, "relevance": keyword.relevance! as AnyObject])
-            }
-        }
-        var total_json = [String: AnyObject]()
-        total_json["concepts"] = jsonConcepts as AnyObject
-        total_json["categories"] = jsonCategories as AnyObject
-        total_json["emotion"] = jsonEmotion as AnyObject
-        total_json["sentiment"] = jsonSentiment as AnyObject
-        total_json["entities"] = jsonEntities as AnyObject
-        total_json["keywords"] = jsonKeywords as AnyObject
-        do {
-            try completion(JSON(data: JSONSerialization.data(withJSONObject: total_json, options: [])))
-        } catch {
-            failure("Something went wrong while parsing JSON!")
-        }
+	var service: NaturalLanguageUnderstanding? = nil
+	func checkValidity(username: String?, password: String?) -> Bool {
+		return (!(username == nil) && !(username == (username == nil ? nil : ""))) && (!(password == nil) && !(password == (password == nil ? nil : "")))
+	}
+	func checkValidity(apikey: String?) -> Bool {
+		return !(apikey == nil) && !(apikey == (apikey == nil ? nil : ""))
+	}
+	let apikeyValid = checkValidity(apikey: nluCreds["apikey"])
+	let userpassValid = checkValidity(username: nluCreds["username"], password: nluCreds["password"])
+	if apikeyValid && userpassValid {
+		failure("You provided both a username and password. Please provide only one.")
+		return
+	} else if !apikeyValid && !userpassValid {
+		failure("You didn't provide a valid apikey OR username/password pair.")
+		return
+	} else if apikeyValid {
+		service = NaturalLanguageUnderstanding(version: "2017-02-27", apiKey: nluCreds["apikey"]!)
+	} else if userpassValid {
+		service = NaturalLanguageUnderstanding(username: nluCreds["username"]!, password: nluCreds["password"]!, version: "2017-02-27")
+	}
+	if let service = service {
+		let concepts = ConceptsOptions(limit: 10)
+		let entities = EntitiesOptions(limit: 10)
+		let keywords = KeywordsOptions(limit: 10)
+		let features = Features(concepts: concepts, emotion: EmotionOptions(), entities: entities, keywords: keywords, sentiment: SentimentOptions(), categories: CategoriesOptions())
+		let params = Parameters(features: features, url: article.getLink())
+		var jsonConcepts = [[String: AnyObject]]()
+		var jsonCategories = [[String: AnyObject]]()
+		var jsonEmotion = [String: AnyObject]()
+		var jsonSentiment = [String: AnyObject]()
+		var jsonEntities = [[String: AnyObject]]()
+		var jsonKeywords = [[String: AnyObject]]()
+		service.analyze(parameters: params) { resp in
+		    for concept in resp.concepts! {
+			jsonConcepts.append(["text": concept.text! as AnyObject, "relevance": concept.relevance! as AnyObject])
+		    }
+		    for category in resp.categories! {
+			jsonCategories.append(["label": category.label! as AnyObject, "score": category.score! as AnyObject])
+		    }
+		    jsonEmotion = ["anger": resp.emotion?.document?.emotion?.anger! as AnyObject, "joy": resp.emotion?.document?.emotion?.joy! as AnyObject, "disgust": resp.emotion?.document?.emotion?.disgust! as AnyObject, "fear": resp.emotion?.document?.emotion?.fear! as AnyObject, "sadness": resp.emotion?.document?.emotion?.sadness! as AnyObject]
+		    jsonSentiment = ["label": resp.sentiment?.document?.label! as AnyObject, "score": resp.sentiment?.document?.score! as AnyObject]
+		    for entity in resp.entities! {
+			jsonEntities.append(["text": entity.text! as AnyObject, "type": entity.type! as AnyObject, "relevance": entity.relevance! as AnyObject])
+		    }
+		    for keyword in resp.keywords! {
+			jsonKeywords.append(["text": keyword.text! as AnyObject, "relevance": keyword.relevance! as AnyObject])
+		    }
+		}
+		var total_json = [String: AnyObject]()
+		total_json["concepts"] = jsonConcepts as AnyObject
+		total_json["categories"] = jsonCategories as AnyObject
+		total_json["emotion"] = jsonEmotion as AnyObject
+		total_json["sentiment"] = jsonSentiment as AnyObject
+		total_json["entities"] = jsonEntities as AnyObject
+		total_json["keywords"] = jsonKeywords as AnyObject
+		do {
+		    try completion(JSON(data: JSONSerialization.data(withJSONObject: total_json, options: [])))
+		} catch {
+		    failure("Something went wrong while parsing JSON!")
+		    return
+		}
+	} else {
+		failure("Service wasn't created.")
+		return
+	}
     }
 
     /// Load the service credentials
@@ -243,6 +252,7 @@ public class Controller {
         if let credentials = serv?.credentials {
             creds["username"] = credentials["username"] as? String
             creds["password"] = credentials["password"] as? String
+	    creds["apikey"] = credentials["apikey"] as? String
             creds["version"] = "2017-03-01"
         } else {
             Log.error("no credentials available for " + serviceName)
