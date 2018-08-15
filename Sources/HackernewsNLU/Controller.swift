@@ -252,7 +252,7 @@ public class Controller {
         if let credentials = serv?.credentials {
             creds["username"] = credentials["username"] as? String
             creds["password"] = credentials["password"] as? String
-        creds["apikey"] = credentials["apikey"] as? String
+            creds["apikey"] = credentials["apikey"] as? String
             creds["version"] = "2017-03-01"
         } else {
             Log.error("no credentials available for " + serviceName)
