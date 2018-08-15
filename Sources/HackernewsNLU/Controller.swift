@@ -24,7 +24,7 @@ public class Controller {
     var articlesList = [NewsArticles]()
     var hostname : String
     var port: Int {
-        get { return 4444 }
+        get { return configMgr.port }
     }
 
     init(hostname: String) throws {
