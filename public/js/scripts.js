@@ -31,7 +31,7 @@ $(document).on("click", "#news_articles td", function(e) {
     $.get(url, function(data) {
           $("#articleTitle").text(title)
           console.log(data);
-          $("#url").empty().html('<strong>Article Url:  <strong><a  href="'+data.retrieved_url+'" target="blank">'+data.retrieved_url+'</a>');
+          $("#url").empty().html('<strong>Article Url:  <strong><a  href="' + data.retrieved_url + '" target="blank">' + data.retrieved_url + '</a>');
           $('#concepts tbody').remove();
           $('#categories tbody').remove();
           $('#emotion tbody').remove();
@@ -50,10 +50,10 @@ $(document).on("click", "#news_articles td", function(e) {
           for (var key in parsed) {
             $('<tr>').html("<td class='tdcolor'>" + key + "</td> <td>" + Number(parsed[key]).toFixed(2) + "</td>").appendTo('#emotion');
           }
-          $('#sentiment').text(data.sentiment.label+"[ "+Number(data.sentiment.score).toFixed(2) +" ]");
+          $('#sentiment').text(data.sentiment.label + " (" + Number(data.sentiment.score).toFixed(2) +")");
           parsed = data.entities;
           for (var i = 0; i < parsed.length; i++) {
-            $('<tr>').html("<td class='tdcolor'>" + parsed[i].text+"</td> <td>" + parsed[i].type + "</td><td>"+Number(parsed[i].relevance).toFixed(2)+"</td>").appendTo('#entities');
+            $('<tr>').html("<td class='tdcolor'>" + parsed[i].text+"</td> <td>" + parsed[i].type + "</td><td>" + Number(parsed[i].relevance).toFixed(2) + "</td>").appendTo('#entities');
           }
           parsed = data.keywords;
           for (var i = 0; i < parsed.length; i++) {
@@ -64,7 +64,6 @@ $(document).on("click", "#news_articles td", function(e) {
 
       })
       .fail(function() {
-          //alert("Problem with article url. Please try another article!")
           $("#error_modal").modal()
           $("#loader_section").hide()
           $("#section_one").show();

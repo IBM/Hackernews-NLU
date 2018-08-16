@@ -5,9 +5,9 @@
         {
           "credentials": {
            "apikey": "",
-           "password": "wNjxvUqYzlu4",
+           "password": "",
            "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-           "username": "77d83210-6187-4693-92b5-170bb74ac444"
+           "username": ""
           },
           "label": "natural-language-understanding",
           "name": "HackernewsNLU",
