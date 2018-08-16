@@ -3,8 +3,6 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-print("starting")
-
 // Initialize HeliumLogger
 HeliumLogger.use(LoggerMessageType.info)
 
