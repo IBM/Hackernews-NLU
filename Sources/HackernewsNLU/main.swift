@@ -7,12 +7,9 @@ import LoggerAPI
 HeliumLogger.use(LoggerMessageType.info)
 
 let hostname = "hacker-news.firebaseio.com"
-var nluCreds: [String:String]
+var nluCreds: [String: String]
 do {
-    let controller = try Controller(hostname:hostname)
-    controller.initData(requestUrlPath: "/v0/topstories.json") {
-        print("Successfully loaded data !!")
-    }
+    let controller = try Controller(hostname: hostname)
     Kitura.addHTTPServer(onPort: controller.port, with: controller.router)
     Kitura.run()
 } catch {
