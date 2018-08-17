@@ -1,3 +1,5 @@
+// Credit for code: http://basememara.com/creating-thread-safe-arrays-in-swift/
+
 import Foundation
 
 /// A thread-safe array.
