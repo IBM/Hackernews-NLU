@@ -31,7 +31,7 @@ You can deploy the application by using the `Deploy to IBM Cloud` button or via 
 
 Clicking on the button below creates a IBM Cloud DevOps Toolchain and deploys this application to IBM Cloud. The [`manifest.yml`](manifest.yml) file included in the repo is parsed to obtain the name of the application, configuration details, and the list of services that should be provisioned.
 
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/Hackernews-NLU)
+[![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/Hackernews-NLU)
 
 Once deployment to IBM Cloud is completed, you can view the deployed application and services from your IBM Cloud account.
 
@@ -51,7 +51,7 @@ git clone https://github.com/IBM/Hackernews-NLU
 
 Create the following service through the IBM Cloud console:
 
-* [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
+* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 
 > **NOTE:** Ensure the service is named *HackernewsNLU*.
 
@@ -96,7 +96,7 @@ start command:     HackernewsNLU
 #0   running   2018-08-08T21:37:31Z   7.9%   5.4M of 256M   550.3M of 1G   
 ```
 
-Once the application is running on IBM Cloud, you can access your application assigned URL (i.e. route). To find the route, you can log on to your [IBM Cloud account](https://console.ng.bluemix.net), or you can inspect the output from the execution of the `bx app push` or `bx app show` commands. The string value shown next to the `urls` field contains the assigned route.  Use that route as the URL to access the sample server using the browser of your choice.
+Once the application is running on IBM Cloud, you can access your application assigned URL (i.e. route). To find the route, you can log on to your [IBM Cloud account](https://cloud.ibm.com), or you can inspect the output from the execution of the `bx app push` or `bx app show` commands. The string value shown next to the `urls` field contains the assigned route.  Use that route as the URL to access the sample server using the browser of your choice.
 
 ## Sample Output
 
