@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/IBM/Hackernews-NLU.svg?branch=master)](https://travis-ci.org/IBM/Hackernews-NLU)
+[![Build Status](https://travis-ci.org/IBM/Hackernews-NLU.svg?branch=master)](https://travis-ci.org/IBM/Hackernews-NLU)
 
 # Use Swift to interpret unstructured data from Hacker News
 
@@ -93,7 +93,7 @@ buildpack:         swift_buildpack
 start command:     HackernewsNLU
 
      state     since                  cpu    memory         disk           details
-#0   running   2018-08-08T21:37:31Z   7.9%   5.4M of 256M   550.3M of 1G   
+#0   running   2018-08-08T21:37:31Z   7.9%   5.4M of 256M   550.3M of 1G
 ```
 
 Once the application is running on IBM Cloud, you can access your application assigned URL (i.e. route). To find the route, you can log on to your [IBM Cloud account](https://cloud.ibm.com), or you can inspect the output from the execution of the `bx app push` or `bx app show` commands. The string value shown next to the `urls` field contains the assigned route.  Use that route as the URL to access the sample server using the browser of your choice.
