@@ -1,6 +1,6 @@
 ---
 declared-services:
-  HackernewsNLU:
+  hn-nlu:
     label: natural-language-understanding
     plan: free
 applications:
@@ -12,4 +12,4 @@ applications:
   command: HackernewsNLU
   buildpack: swift_buildpack
   services:
-   - HackernewsNLU
+   - hn-nlu
